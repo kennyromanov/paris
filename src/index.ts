@@ -32,6 +32,4 @@ export function defaultMount(): void {
 }
 
 
-export { RemoteComponent }
-
 export default Paris;
