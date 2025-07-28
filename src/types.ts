@@ -19,20 +19,27 @@ export type MaybePromise<T = any> = T | Promise<T>;
 
 // Remote Component Struct Types
 
-export type RemoteComponent = {
-    inject: RemoteComponentInjectHandler;
-    mount: RemoteComponentDomHandler;
+export type RemoteComponentOptionsApi = {
+    $emit: RemoteComponentEmitHandler,
 };
 
-export type RemoteComponentOptions = {
-    onInject?: Nullable<RemoteComponentInjectHook>;
-    onMount?: Nullable<RemoteComponentDomHook>;
+export type RemoteComponent = {
+    on: RemoteComponentListenHandler,
+    inject: RemoteComponentEmitHandler,
+    mount: RemoteComponentDomHandler,
+};
+
+export type RemoteComponentOptions = RemoteComponentOptionsApi & {
+    onInject?: Nullable<RemoteComponentInjectHook>,
+    onMount?: Nullable<RemoteComponentDomHook>,
 };
 
 
 // Remote Component Callable Types
 
-export type RemoteComponentInjectHandler = (name: Symbol | string, val: any) => void;
+export type RemoteComponentEmitHandler = (name: Symbol | string, val: any) => void;
+
+export type RemoteComponentListenHandler = (name: Symbol | string, val: any) => MaybePromise<void>;
 
 export type RemoteComponentDomHandler = (el: HTMLElement) => void;
 

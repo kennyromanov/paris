@@ -1,11 +1,11 @@
 {
   "name": "@kennyromanov/paris",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Module Federating Tool (Alpha)",
   "keywords": ["microfrontends", "module federation", "module federation on vue", "alpha version"],
   "type": "module",
   "main": "dist/index.js",
-  "types": "dist/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
@@ -33,5 +33,8 @@
     "esbuild-plugin-import-glob": "^0.1.1",
     "tsc-alias": "^1.8.11",
     "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "mitt": "^3.0.1"
   }
 }

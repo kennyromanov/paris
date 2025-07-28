@@ -1,12 +1,13 @@
-import { RemoteComponent, RemoteComponentOptions } from '@/types';
+import mitt from 'mitt';
+import { RemoteComponent, RemoteComponentEmitHandler, RemoteComponentListenHandler, RemoteComponentOptions, RemoteComponentOptionsApi } from '@/types';
 import { BaseError } from './errors';
 
 
 // Classes
 
-export class Paris {
-
-}
+// export class Paris {
+//
+// }
 
 
 // Functions
@@ -17,10 +18,40 @@ export function mountRemoteComponent(component: any, el: any): void {
 }
 
 export function defineRemoteComponent(options: RemoteComponentOptions): RemoteComponent {
-    const inject = options?.onInject ?? defaultInject;
-    const mount = options?.onMount ?? defaultMount;
 
-    return { inject, mount };
+    // Creating the event bus
+
+    const bus = mitt();
+    const emit = bus.emit as RemoteComponentEmitHandler;
+    const on = bus.on as RemoteComponentListenHandler;
+
+
+    // Creating the options API
+
+    const $emit = emit;
+    const optionsApi: RemoteComponentOptionsApi = { $emit };
+
+
+    // Defining the functions
+
+    const onInject = options?.onInject ?? defaultInject;
+    const onMount = options?.onMount ?? defaultMount;
+
+
+    // Defining the methods
+
+    const inject = onInject.bind(optionsApi);
+    const mount = onMount.bind(optionsApi);
+
+    // TODO: DBG
+    on('tctTemplate:create', (val) => console.log('tctTemplate:create', val));
+
+
+    return {
+        inject,
+        mount,
+        on,
+    };
 }
 
 export function defaultInject(): void {
@@ -32,4 +63,4 @@ export function defaultMount(): void {
 }
 
 
-export default Paris;
+// export default Paris;
