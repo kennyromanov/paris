@@ -29,7 +29,8 @@ export type RemoteComponent = {
     mount: RemoteComponentDomHandler,
 };
 
-export type RemoteComponentOptions = RemoteComponentOptionsApi & {
+export type RemoteComponentOptions = {
+    $emit?: Nullable<RemoteComponentEmitHandler>,
     onInject?: Nullable<RemoteComponentInjectHook>,
     onMount?: Nullable<RemoteComponentDomHook>,
 };

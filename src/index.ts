@@ -64,3 +64,11 @@ export function defaultMount(): void {
 
 
 // export default Paris;
+
+export type {
+    RemoteComponent,
+    RemoteComponentEmitHandler,
+    RemoteComponentListenHandler,
+    RemoteComponentOptions,
+    RemoteComponentOptionsApi,
+};

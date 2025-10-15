@@ -1,6 +1,6 @@
 {
   "name": "@kennyromanov/paris",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A Module Federating Tool (Alpha)",
   "keywords": ["microfrontends", "module federation", "module federation on vue", "alpha version"],
   "type": "module",
