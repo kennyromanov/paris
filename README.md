@@ -1,6 +1,9 @@
 # Paris
 
-A tiny toolkit for hosting remote components and sharing them between apps. Ships with a CLI and a Vite plugin for quick federation.
+[![Static Badge](https://img.shields.io/badge/GitHub-Star%20%281%29-yellow?logo=github)](https://github.com/kennyromanov/paris)
+[![Static Badge](https://img.shields.io/badge/NPM-Download%20%28162%29-blue)](https://www.npmjs.com/package/@kennyromanov/paris)
+
+A tiny toolkit for hosting remote components and sharing them between apps. Ships with a [CLI](https://www.npmjs.com/package/paris-cli) and a [Vite plugin](https://www.npmjs.com/package/paris-vite-plugin) for quick federation.
 
 ### Here's a simple example:
 
