@@ -1,13 +1,15 @@
-import mitt from 'mitt';
-import { RemoteComponent, RemoteComponentEmitHandler, RemoteComponentListenHandler, RemoteComponentOptions, RemoteComponentOptionsApi } from '@/types';
+import {
+    RemoteComponent,
+    RemoteComponentEmitHook,
+    RemoteComponentListenHook,
+    RemoteComponentListenAllHandler,
+    RemoteComponentListenAllHook,
+    RemoteComponentOptions,
+    RemoteComponentOptionsApi,
+} from '@/types';
+
 import { BaseError } from './errors';
-
-
-// Classes
-
-// export class Paris {
-//
-// }
+import mitt from 'mitt';
 
 
 // Functions
@@ -22,35 +24,46 @@ export function defineRemoteComponent(options: RemoteComponentOptions): RemoteCo
     // Creating the event bus
 
     const bus = mitt();
-    const emit = bus.emit as RemoteComponentEmitHandler;
-    const on = bus.on as RemoteComponentListenHandler;
+
+    const emit = ((event: Symbol | string, data: any): void => {
+        bus.emit('any', { event, data });
+        bus.emit(String(event), data);
+    }) as RemoteComponentEmitHook;
+
+    const on = bus.on as RemoteComponentListenHook;
+
+    const onAll = ((handler: RemoteComponentListenAllHandler) => on(
+        'any',
+        (val: any) => handler(val?.event, val?.data),
+    )) as RemoteComponentListenAllHook;
 
 
     // Creating the options API
 
     const $emit = emit;
+
     const optionsApi: RemoteComponentOptionsApi = { $emit };
 
 
     // Defining the functions
 
     const onInject = options?.onInject ?? defaultInject;
+
     const onMount = options?.onMount ?? defaultMount;
 
 
     // Defining the methods
 
     const inject = onInject.bind(optionsApi);
-    const mount = onMount.bind(optionsApi);
 
-    // TODO: DBG
-    on('tctTemplate:create', (val) => console.log('tctTemplate:create', val));
+    const mount = onMount.bind(optionsApi);
 
 
     return {
+        on,
+        onAll,
         inject,
         mount,
-        on,
     };
 }
 
@@ -63,12 +76,11 @@ export function defaultMount(): void {
 }
 
 
-// export default Paris;
-
 export type {
     RemoteComponent,
-    RemoteComponentEmitHandler,
-    RemoteComponentListenHandler,
+    RemoteComponentEmitHook,
+    RemoteComponentListenAllHandler,
+    RemoteComponentListenAllHook,
     RemoteComponentOptions,
     RemoteComponentOptionsApi,
 };
